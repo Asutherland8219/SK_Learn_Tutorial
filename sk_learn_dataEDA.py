@@ -4,6 +4,17 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Preprocessing tools
+from sklearn.preprocessing import scale
+from sklearn.model_selection import train_test_split
+
+# Learning model tools
+from sklearn import cluster
+
+# Evaluation Tools
+from sklearn import metrics
+from sklearn.metrics import homogeneity_score, completeness_score, v_measure_score, adjusted_rand_score, adjusted_mutual_info_score, silhouette_score
+
 # load the data 
 digits = datasets.load_digits()
 
@@ -72,6 +83,51 @@ for i in range(64):
 # Show the master plot
 plt.show()
 
+### Pre process the data in preperation for the model ###
+
+# Apply 'scale()' to the 'digits' data in order to normalize and scale the data and making each attribute have a mean of zero and a SD of 1
+data = scale(digits.data)
+
+# Split into a training set and a test set for the model; this is typically done in a 2/3 training and 1/3 test set #
+X_train, X_test, y_train, y_test, images_train, images_test = train_test_split(data, digits.target, digits.images, test_size=0.25, random_state=42)
+
+# Inspect the data before creating the model
+n_samples, n_features = X_train.shape
+
+print(n_samples)
+
+print(n_features)
+
+# Number of training labels 
+n_digits = len(np.unique(y_train))
+
+# Inspect 'y_train'
+print(len(y_train))
+
+### Begin the learning model ###
+## The number of clusters (n_clusters) is the number of groups you want the data to form and the centroids to generate ##
+clf = cluster.KMeans(init='k-means++', n_clusters=10)
+
+clf.fit(X_train)
+
+# Next we predict the labels for X_test
+y_pred = clf.predict(X_test)
+
+# Verify the data 
+print(len(y_pred))
+print(len(y_test))
+
+print(y_pred[:100])
+print(y_test[:100])
+
+# Check the shape of the cluster centers
+clf.cluster_centers_.shape
+
+## Evaluate the model ##
+print(metrics.confusion_matrix(y_test, y_pred))
+
+print('% 9s' % 'inertia  homo  compl  v-meas  ARI   AMI  silhoutte')
+print('%i  %.3f  %.3f  %.3f  %.3f  %.3f  %.3f' % (clf.inertia_, homogeneity_score(y_test, y_pred), completeness_score(y_test, y_pred), v_measure_score(y_test, y_pred), adjusted_rand_score(y_test,y_pred), adjusted_mutual_info_score(y_test, y_pred), silhouette_score(X_test, y_pred, metric='euclidean')))
 
 
 
