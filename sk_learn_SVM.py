@@ -7,8 +7,7 @@ import numpy as np
 
 # Preprocessing tools
 from sklearn.preprocessing import scale
-from sklearn.model_selection import train_test_split
-from sklearn.grid_search import GridSearchCV
+from sklearn.model_selection import train_test_split, GridSearchCV
 
 # load the data 
 digits = datasets.load_digits()
@@ -65,18 +64,15 @@ parameter_candidates = [
 ]
 
 # Creat a classifier with the parameter candidates we just created
-clf = GridSearchCV(estimator=svm.SVC(), param_grid=parameter_candidates, n_jobs=-1)
+clk = GridSearchCV(estimator=svm.SVC(), param_grid=parameter_candidates, n_jobs=-1)
 
 # Train the classifier with the training data
-clf.fit(X_train, y_train)
+clk.fit(X_train, y_train)
 
-# Print ouf hte results 
-print('Best score for training data:', clf.best_score_)
-print('Best `C`:', clf.best_estimator_.kernel)
-print('Best `gamma`:', clf.best_estimator_.gamma)
-
-
-
+# Print ouf THE results 
+print('Best score for training data:', clk.best_score_)
+print('Best `C`:', clk.best_estimator_.kernel)
+print('Best `gamma`:', clk.best_estimator_.gamma)
 
 #X_train, X_test, y_train, y_test, images_train, images_test = train_test_split(digits.data, digits.target, digits.images, test_size=0.25, random_state=42)
 
@@ -87,6 +83,8 @@ print('Best `gamma`:', clf.best_estimator_.gamma)
 #svc_model.fit(X_train, y_train)
 
 # Apply classifier to the test data and view the accuracy score
-#clf.score(X_test, y_test)
+clK.score(X_test, y_test)
 
-# Train and score a new classifier with 
+# Train and score a new classifier with the grid serach parameters; this is based on the results we calculated above
+svm.SVC(C=10, kernel='rbf', gamma=0.001).fit(X_Train, y_train).score(X_test, y_test)
+
