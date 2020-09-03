@@ -129,6 +129,20 @@ print(metrics.confusion_matrix(y_test, y_pred))
 print('% 9s' % 'inertia  homo  compl  v-meas  ARI   AMI  silhoutte')
 print('%i  %.3f  %.3f  %.3f  %.3f  %.3f  %.3f' % (clf.inertia_, homogeneity_score(y_test, y_pred), completeness_score(y_test, y_pred), v_measure_score(y_test, y_pred), adjusted_rand_score(y_test,y_pred), adjusted_mutual_info_score(y_test, y_pred), silhouette_score(X_test, y_pred, metric='euclidean')))
 
+# Homogeniety score; what extent all of the clusters contain only data points which are members of a single class (Higher is better)
+
+# Completeness score; how close members of a given class are elements of the same cluster (Higher is better)
+
+# V-measure; harmonic mean between homogeity and completeness 
+
+# Adjusted Rand score; measures the similiarity between two clustering and considers all pairs that are assigned to the same or different clusters 
+
+# Adjusted Mutual Info (AMI); used to compare clusters, measures the similariy between the data points. A value of 1 is when clusterings are equivalent. Normalized against chance
+
+# Silhoutte Score; measures how slimilar an object is to its own cluster compared to other clusters. Ranges from -1 to 1; higher indicates matches to its own cluster and lower  to its neighboring cluster. Scores around zero (0) indicate overlapping clusters, higher indicates lots of seperation. A negative value would indicate that it has been assigned to the wrong cluster
+
+
+
 
 
 
